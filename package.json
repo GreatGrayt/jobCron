@@ -1,0 +1,48 @@
+{
+  "name": "job-stats-dashboard",
+  "version": "1.0.0",
+  "description": "Job market analytics dashboard",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.971.0",
+    "@nivo/bump": "^0.99.0",
+    "@nivo/calendar": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "@nivo/radial-bar": "^0.99.0",
+    "@nivo/sankey": "^0.99.0",
+    "@nivo/stream": "^0.99.0",
+    "@nivo/treemap": "^0.99.0",
+    "@nivo/waffle": "^0.99.0",
+    "@visx/text": "^3.12.0",
+    "@visx/wordcloud": "^3.12.0",
+    "axios": "^1.13.2",
+    "cheerio": "^1.1.2",
+    "d3-cloud": "^1.2.8",
+    "exceljs": "^4.4.0",
+    "form-data": "^4.0.5",
+    "framer-motion": "^12.27.0",
+    "lucide-react": "^0.562.0",
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-circular-progressbar": "^2.2.0",
+    "react-dom": "^18.3.0",
+    "react-simple-maps": "^3.0.0",
+    "recharts": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-simple-maps": "^3.0.6",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

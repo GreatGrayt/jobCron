@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "app/api/scrape-jobs/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "app/api/cron/check-jobs/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}
