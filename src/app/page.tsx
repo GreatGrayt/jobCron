@@ -151,9 +151,7 @@ interface ActiveFilters {
 
 export default function StatsPage() {
   const [loading, setLoading] = useState(false);
-  const [updating, setUpdating] = useState(false);
   const [statsData, setStatsData] = useState<StatsData | null>(null);
-  const [updateResult, setUpdateResult] = useState<ExtractResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [useAggregated, setUseAggregated] = useState<boolean>(true);
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -208,26 +206,6 @@ export default function StatsPage() {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleUpdateGist = async () => {
-    setUpdating(true);
-    setError(null);
-    setUpdateResult(null);
-    try {
-      const response = await fetch('/api/stats/get');
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      setUpdateResult({
-        processed: data.processed,
-        newJobs: data.newJobs,
-        currentMonthTotal: data.summary?.currentMonthJobs || 0,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setUpdating(false);
     }
   };
 
@@ -1078,14 +1056,6 @@ export default function StatsPage() {
         </div>
         <div className="terminal-topbar-right">
           <button
-            onClick={handleUpdateGist}
-            disabled={updating}
-            className={`terminal-btn ${updating ? 'loading' : ''}`}
-          >
-            {updating ? <Loader2 size={14} className="spin" /> : <TrendingUp size={14} />}
-            <span>UPDATE GIST</span>
-          </button>
-          <button
             onClick={loadStatistics}
             disabled={loading}
             className={`terminal-btn ${loading ? 'loading' : ''}`}
@@ -1122,11 +1092,6 @@ export default function StatsPage() {
       )}
 
       {/* Alerts */}
-      {updateResult && (
-        <div className="terminal-alert success">
-          ✓ GIST UPDATED: {updateResult.newJobs} new jobs added | Total: {updateResult.currentMonthTotal}
-        </div>
-      )}
       {error && (
         <div className="terminal-alert error">
           ✗ ERROR: {error}

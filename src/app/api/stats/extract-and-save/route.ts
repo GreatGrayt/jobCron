@@ -207,10 +207,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-/**
- * POST endpoint for manual triggering (same as GET)
- */
-export async function POST(request: NextRequest) {
-  return GET(request);
-}

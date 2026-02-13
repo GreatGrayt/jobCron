@@ -54,10 +54,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-/**
- * POST endpoint for manual triggering (development/testing)
- */
-export async function POST(request: NextRequest) {
-  return GET(request);
-}
