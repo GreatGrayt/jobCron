@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
-import { BarChart3, TrendingUp, RefreshCw, Loader2, X, Filter, Calendar, Briefcase, Award, Target, MapPin, Building2, Zap, Users, DollarSign, TrendingDown, AlertCircle, Sparkles, Activity, Globe } from "lucide-react";
+import { BarChart3, TrendingUp, RefreshCw, Loader2, X, Filter, Calendar, Briefcase, Award, Target, MapPin, Building2, Zap, Users, TrendingDown, AlertCircle, Sparkles, Activity, Globe } from "lucide-react";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Area } from 'recharts';
 import WorldMap from '@/components/WorldMap';
 import {
   AnimatedNumber,
   IndustryTreemap,
   SkillsTagCloud,
-  SalaryGauges,
+
   PostingHeatmap,
   CertsBump,
   CHART_COLORS,
@@ -781,39 +781,6 @@ export default function StatsPage() {
     return `$${amount.toLocaleString()}`;
   };
 
-  const getSalaryRangeChartData = () => {
-    const stats = filteredStatistics;
-    if (!stats?.salaryStats) return [];
-    const ranges = stats.salaryStats.salaryRanges;
-    return [
-      { range: '$0-30k', count: ranges['0-30k'] },
-      { range: '$30-50k', count: ranges['30-50k'] },
-      { range: '$50-75k', count: ranges['50-75k'] },
-      { range: '$75-100k', count: ranges['75-100k'] },
-      { range: '$100-150k', count: ranges['100-150k'] },
-      { range: '$150k+', count: ranges['150k+'] },
-    ].filter(item => item.count > 0);
-  };
-
-  const getSalaryByIndustryData = () => {
-    const stats = filteredStatistics;
-    if (!stats?.salaryStats) return [];
-    return Object.entries(stats.salaryStats.byIndustry)
-      .map(([name, data]) => ({ name, avg: data.avg, median: data.median, count: data.count }))
-      .sort((a, b) => b.avg - a.avg)
-      .slice(0, 8);
-  };
-
-  const getSalaryBySeniorityData = () => {
-    const stats = filteredStatistics;
-    if (!stats?.salaryStats) return [];
-    return Object.entries(stats.salaryStats.bySeniority)
-      .map(([name, data]) => ({ name, avg: data.avg, median: data.median, count: data.count }))
-      .sort((a, b) => {
-        const order: Record<string, number> = { 'Entry': 1, 'Mid': 2, 'Senior': 3, 'Management': 4, 'Executive': 5 };
-        return (order[a.name] || 0) - (order[b.name] || 0);
-      });
-  };
 
   // Market insights with useMemo for performance
   const marketInsights = useMemo(() => {
@@ -1638,94 +1605,6 @@ export default function StatsPage() {
                 </ResponsiveContainer>
               </div>
             </div>
-          )}
-
-          {/* Salary Section - organized in a row */}
-          {hasSalaryData && (
-            <>
-              <div className="terminal-panel">
-                <div className="panel-header">
-                  <DollarSign size={14} />
-                  <span>SALARY OVERVIEW</span>
-                </div>
-                <div className="chart-container compact" style={{ height: 240 }}>
-                  <SalaryGauges
-                    stats={{
-                      totalWithSalary: filteredStats.salaryStats?.totalWithSalary || 0,
-                      averageSalary: filteredStats.salaryStats?.averageSalary || null,
-                      medianSalary: filteredStats.salaryStats?.medianSalary || null,
-                    }}
-                    totalJobs={filteredStats.totalJobs}
-                  />
-                </div>
-              </div>
-
-              <div className="terminal-panel">
-                <div className="panel-header">
-                  <DollarSign size={14} />
-                  <span>SALARY DISTRIBUTION</span>
-                </div>
-                <div className="chart-container compact" style={{ height: 240 }}>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <BarChart data={getSalaryRangeChartData()} margin={{ top: 5, right: 15, left: 5, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
-                      <XAxis dataKey="range" stroke="#4a5568" tick={{ fontSize: 8 }} />
-                      <YAxis stroke="#4a5568" tick={{ fontSize: 10 }} allowDecimals={false} />
-                      <Tooltip
-                        contentStyle={{ backgroundColor: '#0a0e1a', border: '1px solid #ffcc00', fontSize: 11 }}
-                        labelStyle={{ color: '#ffcc00' }}
-                      />
-                      <Bar dataKey="count" fill="#ffcc00" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              <div className="terminal-panel">
-                <div className="panel-header">
-                  <Users size={14} />
-                  <span>SALARY BY SENIORITY</span>
-                </div>
-                <div className="chart-container compact" style={{ height: 240 }}>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <BarChart data={getSalaryBySeniorityData()} margin={{ top: 5, right: 15, left: 15, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
-                      <XAxis dataKey="name" stroke="#4a5568" tick={{ fontSize: 8 }} />
-                      <YAxis stroke="#4a5568" tick={{ fontSize: 10 }} />
-                      <Tooltip
-                        contentStyle={{ backgroundColor: '#0a0e1a', border: '1px solid #9d4edd', fontSize: 11 }}
-                        labelStyle={{ color: '#9d4edd' }}
-                        formatter={(value: number | undefined) => value ? [`$${(value / 1000).toFixed(0)}k`, 'Avg Salary'] : ['N/A', 'Avg Salary']}
-                      />
-                      <Bar dataKey="avg" fill="#9d4edd" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              {/* Salary by Industry - full width for better readability */}
-              <div className="terminal-panel span-full">
-                <div className="panel-header">
-                  <Building2 size={14} />
-                  <span>SALARY BY INDUSTRY</span>
-                </div>
-                <div className="chart-container compact" style={{ height: 200 }}>
-                  <ResponsiveContainer width="100%" height={180}>
-                    <BarChart data={getSalaryByIndustryData()} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
-                      <XAxis type="number" stroke="#4a5568" tick={{ fontSize: 10 }} />
-                      <YAxis dataKey="name" type="category" stroke="#4a5568" width={120} tick={{ fontSize: 10 }} />
-                      <Tooltip
-                        contentStyle={{ backgroundColor: '#0a0e1a', border: '1px solid #00ff88', fontSize: 11 }}
-                        labelStyle={{ color: '#00ff88' }}
-                        formatter={(value: number | undefined) => value ? [`$${(value / 1000).toFixed(0)}k`, 'Avg Salary'] : ['N/A', 'Avg Salary']}
-                      />
-                      <Bar dataKey="avg" fill="#00ff88" radius={[0, 4, 4, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </>
           )}
 
           {/* Jobs List Table */}
