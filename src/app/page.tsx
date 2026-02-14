@@ -1192,7 +1192,7 @@ export default function StatsPage() {
                   <div key="date-filter" className="filter-chip">
                     <span className="filter-category">DATE:</span>
                     <span className="filter-value">{selectedDate}</span>
-                    <button onClick={() => setSelectedDate(null)}>
+                    <button type="button" aria-label="Remove date filter" onClick={() => setSelectedDate(null)}>
                       <X size={12} />
                     </button>
                   </div>
@@ -1202,7 +1202,7 @@ export default function StatsPage() {
                     <div key={`${category}-${value}`} className="filter-chip">
                       <span className="filter-category">{category.toUpperCase()}:</span>
                       <span className="filter-value">{value}</span>
-                      <button onClick={() => removeFilter(category as keyof ActiveFilters, value)}>
+                      <button type="button" aria-label={`Remove ${category} filter: ${value}`} onClick={() => removeFilter(category as keyof ActiveFilters, value)}>
                         <X size={12} />
                       </button>
                     </div>
@@ -1217,7 +1217,7 @@ export default function StatsPage() {
             <div className="panel-header">
               <TrendingUp size={14} />
               <span>POSTING VELOCITY</span>
-              {selectedDate && <span style={{ marginLeft: '8px', color: '#00d4ff', fontSize: '10px' }}>(FILTERED: {selectedDate})</span>}
+              {selectedDate && <span className="velocity-filter-label">(FILTERED: {selectedDate})</span>}
             </div>
             <div className="chart-container compact">
               <ResponsiveContainer width="100%" height={180}>
@@ -1254,7 +1254,7 @@ export default function StatsPage() {
                           fill={isActive ? '#00ff88' : '#00d4ff'}
                           stroke={isActive ? '#00ff88' : 'none'}
                           strokeWidth={isActive ? 2 : 0}
-                          style={{ cursor: 'pointer' }}
+                          className="recharts-cursor-pointer"
                           onClick={handleDotClick}
                           onMouseDown={handleDotClick}
                         />
@@ -1277,7 +1277,7 @@ export default function StatsPage() {
                           fill={isActive ? '#00ff88' : '#00d4ff'}
                           stroke="#fff"
                           strokeWidth={2}
-                          style={{ cursor: 'pointer' }}
+                          className="recharts-cursor-pointer"
                           onClick={handleActiveDotClick}
                           onMouseDown={handleActiveDotClick}
                         />
@@ -1325,7 +1325,7 @@ export default function StatsPage() {
               <Building2 size={14} />
               <span>INDUSTRY DISTRIBUTION</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240 }}>
+            <div className="chart-container compact chart-container-h240">
               <IndustryTreemap
                 data={getIndustryChartData()}
                 onIndustryClick={(industry) => toggleFilter('industry', industry)}
@@ -1339,7 +1339,7 @@ export default function StatsPage() {
               <Users size={14} />
               <span>SENIORITY</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="chart-container compact chart-container-centered">
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
                   <Pie
@@ -1352,7 +1352,7 @@ export default function StatsPage() {
                     fill="#8884d8"
                     dataKey="value"
                     onClick={(data) => toggleFilter('seniority', data.name)}
-                    style={{ cursor: 'pointer' }}
+                    className="recharts-cursor-pointer"
                   >
                     {getSeniorityChartData().map((_, index) => (
                       <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
@@ -1372,7 +1372,7 @@ export default function StatsPage() {
               <Calendar size={14} />
               <span>POSTING HEATMAP</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240 }}>
+            <div className="chart-container compact chart-container-h240">
               <PostingHeatmap
                 jobs={filteredJobs}
                 byDayHour={filteredStats?.byDayHour}
@@ -1386,7 +1386,7 @@ export default function StatsPage() {
               <Award size={14} />
               <span>TOP CERTIFICATES</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240, overflow: 'hidden' }}>
+            <div className="chart-container compact chart-container-overflow-hidden">
               <CertsBump
                 data={getCertificateChartData()}
                 onCertClick={(cert) => toggleFilter('certificate', cert)}
@@ -1400,7 +1400,7 @@ export default function StatsPage() {
               <Globe size={14} />
               <span>REGIONAL DISTRIBUTION</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240 }}>
+            <div className="chart-container compact chart-container-h240">
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
                   <Pie
@@ -1413,7 +1413,7 @@ export default function StatsPage() {
                     fill="#8884d8"
                     dataKey="value"
                     onClick={(data) => data && data.name && toggleFilter('region', data.name)}
-                    style={{ cursor: 'pointer' }}
+                    className="recharts-cursor-pointer"
                   >
                     {getRegionData().map((entry, index) => (
                       <Cell
@@ -1421,7 +1421,7 @@ export default function StatsPage() {
                         fill={activeFilters.region.includes(entry.name) ? '#00ff88' : CHART_COLORS[index % CHART_COLORS.length]}
                         stroke={activeFilters.region.includes(entry.name) ? '#00ff88' : 'transparent'}
                         strokeWidth={activeFilters.region.includes(entry.name) ? 2 : 0}
-                        style={{ cursor: 'pointer' }}
+                        className="recharts-cursor-pointer"
                       />
                     ))}
                   </Pie>
@@ -1439,7 +1439,7 @@ export default function StatsPage() {
               <Building2 size={14} />
               <span>TOP EMPLOYERS</span>
             </div>
-            <div className="chart-container compact" style={{ height: 240 }}>
+            <div className="chart-container compact chart-container-h240">
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={getCompanyChartData()} layout="vertical" margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
@@ -1461,7 +1461,7 @@ export default function StatsPage() {
               <Globe size={14} />
               <span>GLOBAL JOB DISTRIBUTION</span>
             </div>
-            <div className="chart-container compact" style={{ height: 360 }}>
+            <div className="chart-container compact chart-container-h360">
               <WorldMap
                 data={getCountryData()}
                 onCountryClick={handleMapCountryClick}
@@ -1475,7 +1475,7 @@ export default function StatsPage() {
               <MapPin size={14} />
               <span>TOP CITIES</span>
             </div>
-            <div className="chart-container compact" style={{ height: 360 }}>
+            <div className="chart-container compact chart-container-h360">
               <ResponsiveContainer width="100%" height={340}>
                 <BarChart data={getCityData()} layout="vertical" margin={{ top: 5, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
@@ -1506,7 +1506,7 @@ export default function StatsPage() {
                 <Target size={14} />
                 <span>EXPERIENCE REQUIRED</span>
               </div>
-              <div className="chart-container compact" style={{ height: 240 }}>
+              <div className="chart-container compact chart-container-h240">
                 <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={getYearsExperienceData()} margin={{ top: 5, right: 15, left: 5, bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
@@ -1543,7 +1543,7 @@ export default function StatsPage() {
                 <Award size={14} />
                 <span>DEGREES REQUIRED</span>
               </div>
-              <div className="chart-container compact" style={{ height: 240 }}>
+              <div className="chart-container compact chart-container-h240">
                 <ResponsiveContainer width="100%" height={220}>
                   <PieChart>
                     <Pie
@@ -1556,7 +1556,7 @@ export default function StatsPage() {
                       fill="#8884d8"
                       dataKey="value"
                       onClick={(data) => toggleFilter('academicDegree', data.name)}
-                      style={{ cursor: 'pointer' }}
+                      className="recharts-cursor-pointer"
                     >
                       {getAcademicDegreesData().map((_, index) => (
                         <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
@@ -1582,13 +1582,13 @@ export default function StatsPage() {
               <table className="jobs-table-full">
                 <thead>
                   <tr>
-                    <th style={{ width: '35%' }}>JOB TITLE</th>
-                    <th style={{ width: '13%' }}>EMPLOYER</th>
-                    <th style={{ width: '12%' }}>INDUSTRY</th>
-                    <th style={{ width: '10%' }}>SENIORITY</th>
-                    <th style={{ width: '10%' }}>COUNTRY</th>
-                    <th style={{ width: '10%' }}>CITY</th>
-                    <th style={{ width: '10%' }}>PUBLISHED</th>
+                    <th className="col-title">JOB TITLE</th>
+                    <th className="col-employer">EMPLOYER</th>
+                    <th className="col-industry">INDUSTRY</th>
+                    <th className="col-seniority">SENIORITY</th>
+                    <th className="col-country">COUNTRY</th>
+                    <th className="col-city">CITY</th>
+                    <th className="col-published">PUBLISHED</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1598,8 +1598,7 @@ export default function StatsPage() {
                       onClick={() => window.open(job.url, '_blank')}
                     >
                       <td
-                        className="cell-title"
-                        style={{ position: 'relative' }}
+                        className="cell-title cell-title-relative"
                         onMouseEnter={(e) => {
                           e.stopPropagation();
                           setHoveringJobId(job.id);
@@ -1638,12 +1637,7 @@ export default function StatsPage() {
                             width="20"
                             height="20"
                             viewBox="0 0 20 20"
-                            style={{
-                              position: 'absolute',
-                              right: '8px',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                            }}
+                            className="loading-circle-svg"
                           >
                             <circle
                               cx="10"
@@ -1666,8 +1660,8 @@ export default function StatsPage() {
                             />
                           </svg>
                         )}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontWeight: 'bold' }}>{job.title}</span>
+                        <div className="job-title-wrapper">
+                          <span className="job-title-text">{job.title}</span>
                         </div>
                       </td>
                       <td className="cell-company">{job.company || 'N/A'}</td>
@@ -1829,15 +1823,8 @@ export default function StatsPage() {
                 {getSoftwareData().map(({name, value}) => (
                   <button
                     key={name}
-                    className={`keyword-compact ${activeFilters.software.includes(name) ? 'active' : ''}`}
+                    className={`keyword-compact keyword-software ${activeFilters.software.includes(name) ? 'active' : ''}`}
                     onClick={() => toggleFilter('software', name)}
-                    style={{
-                      background: activeFilters.software.includes(name)
-                        ? `linear-gradient(135deg, #7b2cbf 0%, #5a189a 100%)`
-                        : `linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%)`,
-                      border: '1px solid #9d4edd',
-                      cursor: 'pointer'
-                    }}
                   >
                     <span className="keyword-name">{name}</span>
                     <span className="keyword-value">{value}</span>
@@ -1858,15 +1845,8 @@ export default function StatsPage() {
                 {getProgrammingSkillsData().map(({name, value}) => (
                   <button
                     key={name}
-                    className={`keyword-compact ${activeFilters.programmingSkill.includes(name) ? 'active' : ''}`}
+                    className={`keyword-compact keyword-programming ${activeFilters.programmingSkill.includes(name) ? 'active' : ''}`}
                     onClick={() => toggleFilter('programmingSkill', name)}
-                    style={{
-                      background: activeFilters.programmingSkill.includes(name)
-                        ? `linear-gradient(135deg, #d90429 0%, #a4031f 100%)`
-                        : `linear-gradient(135deg, #ff006e 0%, #d90429 100%)`,
-                      border: '1px solid #ff006e',
-                      cursor: 'pointer'
-                    }}
                   >
                     <span className="keyword-name">{name}</span>
                     <span className="keyword-value">{value}</span>
@@ -1883,7 +1863,7 @@ export default function StatsPage() {
                 <Briefcase size={14} />
                 <span>JOB CATEGORIES</span>
               </div>
-              <div className="chart-container compact" style={{ height: 280 }}>
+              <div className="chart-container compact chart-container-h280">
                 <ResponsiveContainer width="100%" height={260}>
                   <PieChart>
                     <Pie
@@ -1896,7 +1876,7 @@ export default function StatsPage() {
                       fill="#8884d8"
                       dataKey="value"
                       onClick={(data) => data && data.name && toggleFilter('roleCategory', data.name)}
-                      style={{ cursor: 'pointer' }}
+                      className="recharts-cursor-pointer"
                     >
                       {getRoleCategoryData().map((entry, index) => (
                         <Cell
@@ -1904,7 +1884,7 @@ export default function StatsPage() {
                           fill={activeFilters.roleCategory.includes(entry.name) ? '#00ff88' : CHART_COLORS[index % CHART_COLORS.length]}
                           stroke={activeFilters.roleCategory.includes(entry.name) ? '#00ff88' : 'transparent'}
                           strokeWidth={activeFilters.roleCategory.includes(entry.name) ? 2 : 0}
-                          style={{ cursor: 'pointer' }}
+                          className="recharts-cursor-pointer"
                         />
                       ))}
                     </Pie>
@@ -1925,7 +1905,7 @@ export default function StatsPage() {
                 <Target size={14} />
                 <span>TOP ROLE TYPES</span>
               </div>
-              <div className="chart-container compact" style={{ height: 280 }}>
+              <div className="chart-container compact chart-container-h280">
                 <ResponsiveContainer width="100%" height={260}>
                   <BarChart data={getRoleTypeData().slice(0, 12)} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1a2332" />
@@ -1959,15 +1939,8 @@ export default function StatsPage() {
                 {getRoleTypeData().map(({name, value}) => (
                   <button
                     key={name}
-                    className={`keyword-compact ${activeFilters.roleType.includes(name) ? 'active' : ''}`}
+                    className={`keyword-compact keyword-role-type ${activeFilters.roleType.includes(name) ? 'active' : ''}`}
                     onClick={() => toggleFilter('roleType', name)}
-                    style={{
-                      background: activeFilters.roleType.includes(name)
-                        ? `linear-gradient(135deg, #0077b6 0%, #023e8a 100%)`
-                        : `linear-gradient(135deg, #00d4ff 0%, #0077b6 100%)`,
-                      border: '1px solid #00d4ff',
-                      cursor: 'pointer'
-                    }}
                   >
                     <span className="keyword-name">{name}</span>
                     <span className="keyword-value">{value}</span>
@@ -1987,11 +1960,11 @@ export default function StatsPage() {
               <table className="stats-table">
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'left' }}>RANK</th>
-                    <th style={{ textAlign: 'left' }}>KEYWORD</th>
-                    <th style={{ textAlign: 'right' }}>COUNT</th>
-                    <th style={{ textAlign: 'right' }}>% OF JOBS</th>
-                    <th style={{ textAlign: 'center' }}>TREND</th>
+                    <th className="th-left">RANK</th>
+                    <th className="th-left">KEYWORD</th>
+                    <th className="th-right">COUNT</th>
+                    <th className="th-right">% OF JOBS</th>
+                    <th className="th-center">TREND</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2003,11 +1976,11 @@ export default function StatsPage() {
                         className={`keyword-row ${activeFilters.keyword.includes(keyword) ? 'active' : ''}`}
                         onClick={() => toggleFilter('keyword', keyword)}
                       >
-                        <td className="cell-muted" style={{ fontWeight: 'bold' }}>#{index + 1}</td>
+                        <td className="cell-muted td-bold">#{index + 1}</td>
                         <td className="cell-title">{keyword}</td>
-                        <td className="cell-highlight" style={{ textAlign: 'right' }}>{count}</td>
-                        <td className="cell-seniority" style={{ textAlign: 'right' }}>{percentage}%</td>
-                        <td className="cell-location" style={{ textAlign: 'center' }}>
+                        <td className="cell-highlight td-right">{count}</td>
+                        <td className="cell-seniority td-right">{percentage}%</td>
+                        <td className="cell-location td-center">
                           {index < 5 ? '🔥 HOT' : index < 10 ? '↗ RISING' : '→ STABLE'}
                         </td>
                       </tr>
@@ -2024,7 +1997,7 @@ export default function StatsPage() {
               <Zap size={14} />
               <span>IN-DEMAND SKILLS</span>
             </div>
-            <div className="chart-container compact" style={{ height: 'auto', minHeight: 100 }}>
+            <div className="chart-container compact chart-container-auto">
               <SkillsTagCloud
                 data={getTopKeywords()}
                 onWordClick={(word) => toggleFilter('keyword', word)}
@@ -2039,12 +2012,13 @@ export default function StatsPage() {
       {/* Job Description Popup */}
       {hoveredJob && popupPosition && (
         <div
-          ref={popupRef}
-          className="job-popup job-description-popup"
-          style={{
-            left: `${popupPosition.x}px`,
-            top: `${popupPosition.y}px`,
-            pointerEvents: 'auto',
+          className="job-popup job-description-popup job-popup-positioned"
+          ref={(el) => {
+            if (el) {
+              el.style.left = `${popupPosition.x}px`;
+              el.style.top = `${popupPosition.y}px`;
+            }
+            popupRef.current = el;
           }}
           onMouseEnter={() => {
             setIsMouseOverPopup(true);
@@ -2058,6 +2032,8 @@ export default function StatsPage() {
           {/* Header with close button - fixed */}
           <div className="job-popup-header">
             <button
+              type="button"
+              aria-label="Close job description"
               className="job-popup-close"
               onClick={() => {
                 setIsMouseOverPopup(false);

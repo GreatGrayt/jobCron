@@ -887,3 +887,169 @@
 .loading-circle-fg {
   stroke: var(--terminal-accent);
 }
+
+/* ========================================
+   EXTRACTED INLINE STYLES
+   ======================================== */
+
+/* Chart container height variants */
+.chart-container-h240 {
+  height: 240px;
+}
+
+.chart-container-h280 {
+  height: 280px;
+}
+
+.chart-container-h360 {
+  height: 360px;
+}
+
+.chart-container-auto {
+  height: auto;
+  min-height: 100px;
+}
+
+/* Seniority chart centering */
+.chart-container-centered {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Certificates chart overflow */
+.chart-container-overflow-hidden {
+  height: 240px;
+  overflow: hidden;
+}
+
+/* Posting velocity filtered label */
+.velocity-filter-label {
+  margin-left: 8px;
+  color: #00d4ff;
+  font-size: 10px;
+}
+
+/* Jobs table column widths */
+.jobs-table-full .col-title {
+  width: 35%;
+}
+
+.jobs-table-full .col-employer {
+  width: 13%;
+}
+
+.jobs-table-full .col-industry {
+  width: 12%;
+}
+
+.jobs-table-full .col-seniority {
+  width: 10%;
+}
+
+.jobs-table-full .col-country {
+  width: 10%;
+}
+
+.jobs-table-full .col-city {
+  width: 10%;
+}
+
+.jobs-table-full .col-published {
+  width: 10%;
+}
+
+/* Cell with relative positioning for hover indicator */
+.cell-title-relative {
+  position: relative;
+}
+
+/* Loading circle SVG positioning */
+.loading-circle-svg {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Job title flex layout */
+.job-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Job title bold text */
+.job-title-text {
+  font-weight: bold;
+}
+
+/* Keyword analysis table header alignment */
+.stats-table .th-left {
+  text-align: left;
+}
+
+.stats-table .th-right {
+  text-align: right;
+}
+
+.stats-table .th-center {
+  text-align: center;
+}
+
+/* Keyword analysis table cell alignment */
+.stats-table .td-bold {
+  font-weight: bold;
+}
+
+.stats-table .td-right {
+  text-align: right;
+}
+
+.stats-table .td-center {
+  text-align: center;
+}
+
+/* Software & Tools button styles */
+.keyword-compact.keyword-software {
+  background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
+  border: 1px solid #9d4edd;
+  cursor: pointer;
+}
+
+.keyword-compact.keyword-software.active {
+  background: linear-gradient(135deg, #7b2cbf 0%, #5a189a 100%);
+}
+
+/* Programming Languages button styles */
+.keyword-compact.keyword-programming {
+  background: linear-gradient(135deg, #ff006e 0%, #d90429 100%);
+  border: 1px solid #ff006e;
+  cursor: pointer;
+}
+
+.keyword-compact.keyword-programming.active {
+  background: linear-gradient(135deg, #d90429 0%, #a4031f 100%);
+}
+
+/* Role Type button styles */
+.keyword-compact.keyword-role-type {
+  background: linear-gradient(135deg, #00d4ff 0%, #0077b6 100%);
+  border: 1px solid #00d4ff;
+  cursor: pointer;
+}
+
+.keyword-compact.keyword-role-type.active {
+  background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+}
+
+/* Recharts interactive elements cursor */
+.recharts-cursor-pointer {
+  cursor: pointer;
+}
+
+/* Job popup dynamic positioning (applied via className, position set dynamically) */
+.job-popup-positioned {
+  pointer-events: auto;
+}
