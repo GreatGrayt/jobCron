@@ -193,19 +193,26 @@ export default function StatsPage() {
     return () => clearTimeout(timer);
   }, [textSearch]);
 
-  const loadStatistics = async () => {
+  const loadStatistics = async (retries = 2) => {
     setLoading(true);
     setError(null);
-    try {
-      const response = await fetch('/api/stats/load');
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      setStatsData(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const response = await fetch('/api/stats/load');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        setStatsData(data);
+        setLoading(false);
+        return;
+      } catch (err) {
+        if (attempt < retries) {
+          await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+          continue;
+        }
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      }
     }
+    setLoading(false);
   };
 
   // Filter management
