@@ -1062,7 +1062,7 @@ export default function StatsPage() {
         </div>
         <div className="terminal-topbar-right">
           <button
-            onClick={loadStatistics}
+            onClick={() => loadStatistics()}
             disabled={loading}
             className={`terminal-btn ${loading ? 'loading' : ''}`}
           >
